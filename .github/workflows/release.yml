@@ -19,17 +19,27 @@ jobs:
         run: echo "::set-output name=version::$(cat ./.go-version)"
   release-notes:
     runs-on: macos-latest
+    outputs:
+      branch: ${{ steps.release-meta.outputs.branch }}
+      tag: ${{ steps.release-meta.outputs.tag }}
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
       - name: Generate Release Notes
-        run: sed -n -e "1{/# /d;}" -e "2{/^$/d;}" -e "/# \[$(git describe --abbrev=0 --exclude="$(git describe --abbrev=0 --match='v*.*.*' --tags)" --match='v*.*.*' --tags | tr -d v)/q;p" CHANGELOG.md > release-notes.txt
+        run: sed -n -e "1{/# /d;}" -e "2{/^$/d;}" -e "/# $(git describe --abbrev=0 --exclude="$(git describe --abbrev=0 --match='v*.*.*' --tags)" --match='v*.*.*' --tags | tr -d v)/q;p" CHANGELOG.md > release-notes.txt
       - uses: actions/upload-artifact@v2
         with:
           name: release-notes
           path: release-notes.txt
           retention-days: 1
+      - name: Store Release Metadata
+        id: release-meta
+        run: |
+          tag=$(git describe --abbrev=0 --match='v*.*.*' --tags)
+          branch=$(git branch --contains tags/$tag | xargs)
+          echo ::set-output name=branch::$branch
+          echo ::set-output name=tag::$tag
   terraform-provider-release:
     name: 'Terraform Provider Release'
     needs: [go-version, release-notes]
@@ -50,17 +60,17 @@ jobs:
       release-notes: true
       setup-go-version: '${{ needs.go-version.outputs.version }}'
   changelog-newversion:
-      needs: [terraform-provider-release]
+      needs: [terraform-provider-release, release-notes]
       runs-on: macos-latest
       steps:
         - uses: actions/checkout@v3
           with:
             fetch-depth: 0
+            ref: ${{ needs.release-notes.outputs.branch }}
         - name: Update Changelog Header
-          id: changelog
           run: |
             CHANGELOG_FILE_NAME="CHANGELOG.md"
-            PREVIOUS_RELEASE_TAG=$(git describe --abbrev=0 --match='v*.*.*' --tags)
+            PREVIOUS_RELEASE_TAG=${{ needs.release-notes.outputs.tag }}
            
             # Add Release Date
             RELEASE_DATE=`date +%B' '%e', '%Y`
@@ -78,11 +88,9 @@ jobs:
             echo New minor version is: v$NEW_RELEASE_LINE
             
             echo -e "## $NEW_RELEASE_LINE (Unreleased)\n$(cat $CHANGELOG_FILE_NAME)" > $CHANGELOG_FILE_NAME
-            
-            echo ::set-output name=prev_release_tag::$PREVIOUS_RELEASE_TAG
         - run: |
               git config --local user.email changelogbot@hashicorp.com
               git config --local user.name changelogbot
               git add CHANGELOG.md
-              git commit -m "Update CHANGELOG.md after ${{ steps.changelog.outputs.prev_release_tag }}" 
+              git commit -m "Update CHANGELOG.md after ${{ needs.release-notes.outputs.tag }}" 
               git push

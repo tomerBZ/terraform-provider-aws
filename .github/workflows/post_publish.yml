@@ -1,13 +1,16 @@
 name: Post Publish
 on:
-  release:
-    types: [published]
+  workflow_run:
+    workflows: [Release]
+    types:
+      - completed
 jobs:
-  tidy:
-    name: Tidy Asana
+  on-success:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - uses: breathingdust/github-asana-tidy@v1
+      - name: Tidy Asana
+        uses: breathingdust/github-asana-tidy@v1
         with:
           asana_pat: ${{ secrets.asana_pat }}
           asana_target_section_gid: '1141945723817371'
@@ -16,12 +19,14 @@ jobs:
           asana_github_url_field_gid: '1134594824474912'
           github_release_name: ${{ github.event.release.tag_name }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  project-archive:
-    name: Archive Released Cards
-    runs-on: ubuntu-latest
-    steps:
-      - uses: breathingdust/github-project-archive@v1
+      - name: Archive Released Cards
+        uses: breathingdust/github-project-archive@v1
         with:
           github_done_column_id: 11513756
           github_release_name: ${{ github.event.release.tag_name }}
           github_token: ${{ secrets.ORGSCOPED_GITHUB_TOKEN }}
+  on-failure:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - run: echo 'The triggering workflow failed'
