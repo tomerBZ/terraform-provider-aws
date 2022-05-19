@@ -18,5 +18,5 @@ terraform {
 }
 
 provider "github" {
-  owner = "hashicorp"
+  owner = "hashicorpasd"
 }
