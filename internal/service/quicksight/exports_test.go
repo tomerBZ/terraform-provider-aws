@@ -5,6 +5,7 @@ package quicksight
 
 // Exports for use in tests only.
 var (
+	ResourceAccountSettings     = newAccountSettingsResource
 	ResourceAccountSubscription = resourceAccountSubscription
 	ResourceAnalysis            = resourceAnalysis
 	ResourceDashboard           = resourceDashboard
@@ -18,6 +19,7 @@ var (
 	ResourceIngestion           = newIngestionResource
 	ResourceNamespace           = newNamespaceResource
 	ResourceRefreshSchedule     = newRefreshScheduleResource
+	ResourceRoleMembership      = newResourceRoleMembership
 	ResourceTemplate            = resourceTemplate
 	ResourceTemplateAlias       = newTemplateAliasResource
 	ResourceTheme               = resourceTheme
@@ -28,6 +30,7 @@ var (
 	DefaultGroupNamespace                 = defaultGroupNamespace
 	DefaultIAMPolicyAssignmentNamespace   = defaultIAMPolicyAssignmentNamespace
 	DefaultUserNamespace                  = defaultUserNamespace
+	FindAccountSettingsByID               = findAccountSettingsByID
 	FindAccountSubscriptionByID           = findAccountSubscriptionByID
 	FindAnalysisByTwoPartKey              = findAnalysisByTwoPartKey
 	FindDashboardByThreePartKey           = findDashboardByThreePartKey
@@ -41,6 +44,7 @@ var (
 	FindIngestionByThreePartKey           = findIngestionByThreePartKey
 	FindNamespaceByTwoPartKey             = findNamespaceByTwoPartKey
 	FindRefreshScheduleByThreePartKey     = findRefreshScheduleByThreePartKey
+	FindRoleMembershipByMultiPartKey      = findRoleMembershipByMultiPartKey
 	FindTemplateAliasByThreePartKey       = findTemplateAliasByThreePartKey
 	FindTemplateByTwoPartKey              = findTemplateByTwoPartKey
 	FindThemeByTwoPartKey                 = findThemeByTwoPartKey

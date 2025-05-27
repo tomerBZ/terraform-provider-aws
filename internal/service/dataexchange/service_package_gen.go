@@ -19,7 +19,21 @@ func (p *servicePackage) FrameworkDataSources(ctx context.Context) []*types.Serv
 }
 
 func (p *servicePackage) FrameworkResources(ctx context.Context) []*types.ServicePackageFrameworkResource {
-	return []*types.ServicePackageFrameworkResource{}
+	return []*types.ServicePackageFrameworkResource{
+		{
+			Factory:  newEventActionResource,
+			TypeName: "aws_dataexchange_event_action",
+			Name:     "Event Action",
+		},
+		{
+			Factory:  newRevisionAssetsResource,
+			TypeName: "aws_dataexchange_revision_assets",
+			Name:     "Revision Assets",
+			Tags: &types.ServicePackageResourceTags{
+				IdentifierAttribute: names.AttrARN,
+			},
+		},
+	}
 }
 
 func (p *servicePackage) SDKDataSources(ctx context.Context) []*types.ServicePackageSDKDataSource {
@@ -29,7 +43,7 @@ func (p *servicePackage) SDKDataSources(ctx context.Context) []*types.ServicePac
 func (p *servicePackage) SDKResources(ctx context.Context) []*types.ServicePackageSDKResource {
 	return []*types.ServicePackageSDKResource{
 		{
-			Factory:  ResourceDataSet,
+			Factory:  resourceDataSet,
 			TypeName: "aws_dataexchange_data_set",
 			Name:     "Data Set",
 			Tags: &types.ServicePackageResourceTags{
@@ -37,7 +51,7 @@ func (p *servicePackage) SDKResources(ctx context.Context) []*types.ServicePacka
 			},
 		},
 		{
-			Factory:  ResourceRevision,
+			Factory:  resourceRevision,
 			TypeName: "aws_dataexchange_revision",
 			Name:     "Revision",
 			Tags: &types.ServicePackageResourceTags{

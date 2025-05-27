@@ -90,6 +90,7 @@ import (
 	"github.com/hashicorp/terraform-provider-aws/internal/service/docdbelastic"
 	"github.com/hashicorp/terraform-provider-aws/internal/service/drs"
 	"github.com/hashicorp/terraform-provider-aws/internal/service/ds"
+	"github.com/hashicorp/terraform-provider-aws/internal/service/dsql"
 	"github.com/hashicorp/terraform-provider-aws/internal/service/dynamodb"
 	"github.com/hashicorp/terraform-provider-aws/internal/service/ec2"
 	"github.com/hashicorp/terraform-provider-aws/internal/service/ecr"
@@ -160,6 +161,7 @@ import (
 	"github.com/hashicorp/terraform-provider-aws/internal/service/medialive"
 	"github.com/hashicorp/terraform-provider-aws/internal/service/mediapackage"
 	"github.com/hashicorp/terraform-provider-aws/internal/service/mediapackagev2"
+	"github.com/hashicorp/terraform-provider-aws/internal/service/mediapackagevod"
 	"github.com/hashicorp/terraform-provider-aws/internal/service/mediastore"
 	"github.com/hashicorp/terraform-provider-aws/internal/service/memorydb"
 	"github.com/hashicorp/terraform-provider-aws/internal/service/meta"
@@ -171,6 +173,8 @@ import (
 	"github.com/hashicorp/terraform-provider-aws/internal/service/networkfirewall"
 	"github.com/hashicorp/terraform-provider-aws/internal/service/networkmanager"
 	"github.com/hashicorp/terraform-provider-aws/internal/service/networkmonitor"
+	"github.com/hashicorp/terraform-provider-aws/internal/service/notifications"
+	"github.com/hashicorp/terraform-provider-aws/internal/service/notificationscontacts"
 	"github.com/hashicorp/terraform-provider-aws/internal/service/oam"
 	"github.com/hashicorp/terraform-provider-aws/internal/service/opensearch"
 	"github.com/hashicorp/terraform-provider-aws/internal/service/opensearchserverless"
@@ -345,6 +349,7 @@ func servicePackages(ctx context.Context) []conns.ServicePackage {
 		docdbelastic.ServicePackage(ctx),
 		drs.ServicePackage(ctx),
 		ds.ServicePackage(ctx),
+		dsql.ServicePackage(ctx),
 		dynamodb.ServicePackage(ctx),
 		ec2.ServicePackage(ctx),
 		ecr.ServicePackage(ctx),
@@ -415,6 +420,7 @@ func servicePackages(ctx context.Context) []conns.ServicePackage {
 		medialive.ServicePackage(ctx),
 		mediapackage.ServicePackage(ctx),
 		mediapackagev2.ServicePackage(ctx),
+		mediapackagevod.ServicePackage(ctx),
 		mediastore.ServicePackage(ctx),
 		memorydb.ServicePackage(ctx),
 		meta.ServicePackage(ctx),
@@ -426,6 +432,8 @@ func servicePackages(ctx context.Context) []conns.ServicePackage {
 		networkfirewall.ServicePackage(ctx),
 		networkmanager.ServicePackage(ctx),
 		networkmonitor.ServicePackage(ctx),
+		notifications.ServicePackage(ctx),
+		notificationscontacts.ServicePackage(ctx),
 		oam.ServicePackage(ctx),
 		opensearch.ServicePackage(ctx),
 		opensearchserverless.ServicePackage(ctx),

@@ -21,6 +21,11 @@ func (p *servicePackage) FrameworkDataSources(ctx context.Context) []*types.Serv
 func (p *servicePackage) FrameworkResources(ctx context.Context) []*types.ServicePackageFrameworkResource {
 	return []*types.ServicePackageFrameworkResource{
 		{
+			Factory:  newAccountSettingsResource,
+			TypeName: "aws_quicksight_account_settings",
+			Name:     "Account Settings",
+		},
+		{
 			Factory:  newFolderMembershipResource,
 			TypeName: "aws_quicksight_folder_membership",
 			Name:     "Folder Membership",
@@ -47,6 +52,11 @@ func (p *servicePackage) FrameworkResources(ctx context.Context) []*types.Servic
 			Factory:  newRefreshScheduleResource,
 			TypeName: "aws_quicksight_refresh_schedule",
 			Name:     "Refresh Schedule",
+		},
+		{
+			Factory:  newResourceRoleMembership,
+			TypeName: "aws_quicksight_role_membership",
+			Name:     "Role Membership",
 		},
 		{
 			Factory:  newTemplateAliasResource,

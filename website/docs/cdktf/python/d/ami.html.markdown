@@ -48,20 +48,17 @@ class MyConvertedCode(TerraformStack):
 
 ## Argument Reference
 
-* `owners` - (Optional) List of AMI owners to limit search. Valid values: an AWS account ID, `self` (the current account), or an AWS owner alias (e.g., `amazon`, `aws-marketplace`, `microsoft`).
+This data source supports the following arguments:
 
+* `owners` - (Optional) List of AMI owners to limit search. Valid values: an AWS account ID, `self` (the current account), or an AWS owner alias (e.g., `amazon`, `aws-marketplace`, `microsoft`).
 * `most_recent` - (Optional) If more than one result is returned, use the most
 recent AMI.
-
 * `executable_users` - (Optional) Limit search to users with *explicit* launch permission on
  the image. Valid items are the numeric account ID or `self`.
-
 * `include_deprecated` - (Optional) If true, all deprecated AMIs are included in the response. If false, no deprecated AMIs are included in the response. If no value is specified, the default value is false.
-
 * `filter` - (Optional) One or more name/value pairs to filter off of. There are
 several valid keys, for a full reference, check out
 [describe-images in the AWS CLI reference][1].
-
 * `name_regex` - (Optional) Regex string to apply to the AMI list returned
 by AWS. This allows more advanced filtering not supported from the AWS API. This
 filtering is done locally on what AWS returns, and could have a performance
@@ -75,12 +72,9 @@ you want to match multiple AMIs, use the `aws_ami_ids` data source instead.
 
 ## Attribute Reference
 
-`id` is set to the ID of the found AMI. In addition, the following attributes
-are exported:
+This data source exports the following attributes in addition to the arguments above:
 
-~> **NOTE:** Some values are not always set and may not be available for
-interpolation.
-
+* `id` - ID of the AMI.
 * `arn` - ARN of the AMI.
 * `architecture` - OS architecture of the AMI (ie: `i386` or `x86_64`).
 * `boot_mode` - Boot mode of the image.
@@ -109,6 +103,7 @@ interpolation.
 * `imds_support` - Instance Metadata Service (IMDS) support mode for the image. Set to `v2.0` if instances ran from this image enforce IMDSv2.
 * `kernel_id` - Kernel associated with the image, if any. Only applicable
   for machine images.
+* `last_launched_time` - Date and time, in ISO 8601 date-time format , when the AMI was last used to launch an EC2 instance. When the AMI is used to launch an instance, there is a 24-hour delay before that usage is reported. For more information, see the following [AWS document](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-last-launched-time.html).
 * `name` - Name of the AMI that was provided during image creation.
 * `owner_id` - AWS account ID of the image owner.
 * `platform` - Value is Windows for `Windows` AMIs; otherwise blank.
@@ -134,9 +129,13 @@ interpolation.
 * `tpm_support` - If the image is configured for NitroTPM support, the value is `v2.0`.
 * `virtualization_type` - Type of virtualization of the AMI (ie: `hvm` or
   `paravirtual`).
+* `uefi_data` - (Optional) Base64 representation of the non-volatile UEFI variable store.
 * `usage_operation` - Operation of the Amazon EC2 instance and the billing code that is associated with the AMI.
 * `platform_details` - Platform details associated with the billing code of the AMI.
 * `ena_support` - Whether enhanced networking with ENA is enabled.
+
+~> **NOTE:** Some values are not always set and may not be available for
+interpolation.
 
 ## Timeouts
 
@@ -146,4 +145,4 @@ interpolation.
 
 [1]: http://docs.aws.amazon.com/cli/latest/reference/ec2/describe-images.html
 
-<!-- cache-key: cdktf-0.20.8 input-ddf36ab9a263ec2e8e853d80bf60b914742b569dad64c1a3b33bf922722760bf -->
+<!-- cache-key: cdktf-0.20.8 input-20e01b0a74f9ac0f7e51fa71d8bb9b456d55fab280e87e7630b32a84f2e95273 -->

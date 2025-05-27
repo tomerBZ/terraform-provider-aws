@@ -773,6 +773,14 @@ func endpointsSchema() *schema.Schema {
 					Description: "Use this to override the default service endpoint URL",
 				},
 
+				// dsql
+
+				"dsql": {
+					Type:        schema.TypeString,
+					Optional:    true,
+					Description: "Use this to override the default service endpoint URL",
+				},
+
 				// dynamodb
 
 				"dynamodb": {
@@ -1447,6 +1455,14 @@ func endpointsSchema() *schema.Schema {
 					Description: "Use this to override the default service endpoint URL",
 				},
 
+				// mediapackagevod
+
+				"mediapackagevod": {
+					Type:        schema.TypeString,
+					Optional:    true,
+					Description: "Use this to override the default service endpoint URL",
+				},
+
 				// mediastore
 
 				"mediastore": {
@@ -1522,6 +1538,22 @@ func endpointsSchema() *schema.Schema {
 				// networkmonitor
 
 				"networkmonitor": {
+					Type:        schema.TypeString,
+					Optional:    true,
+					Description: "Use this to override the default service endpoint URL",
+				},
+
+				// notifications
+
+				"notifications": {
+					Type:        schema.TypeString,
+					Optional:    true,
+					Description: "Use this to override the default service endpoint URL",
+				},
+
+				// notificationscontacts
+
+				"notificationscontacts": {
 					Type:        schema.TypeString,
 					Optional:    true,
 					Description: "Use this to override the default service endpoint URL",

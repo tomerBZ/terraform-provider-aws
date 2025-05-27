@@ -9,6 +9,7 @@ import (
 
 	"github.com/hashicorp/go-cty/cty"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	tfslices "github.com/hashicorp/terraform-provider-aws/internal/slices"
 )
 
 const (
@@ -115,6 +116,16 @@ func NewAttributeRequiredWhenError(neededPath, otherPath cty.Path, value string)
 	)
 }
 
+// NewAtLeastOneOfChildrenError returns an error diagnostic indicating that at least on of the named children of
+// parentPath is required.
+func NewAtLeastOneOfChildrenError(parentPath cty.Path, paths ...cty.Path) diag.Diagnostic {
+	return NewAttributeErrorDiagnostic(
+		parentPath,
+		"Invalid Attribute Combination",
+		fmt.Sprintf("At least one attribute out of [%s] must be specified", strings.Join(tfslices.ApplyToAll(paths, PathString), ", ")),
+	)
+}
+
 // NewAttributeRequiredWhenError should only be used for apply-time validation, as it replicates
 // the functionality of a `Required` attribute
 func NewAttributeRequiredError(parentPath cty.Path, attrname string) diag.Diagnostic {
@@ -161,24 +172,22 @@ func PathString(path cty.Path) string {
 			}
 			buf.WriteString(x.Name)
 		case cty.IndexStep:
-			val := x.Key
-			typ := val.Type()
 			var s string
-			switch {
-			case typ == cty.String:
+			switch val := x.Key; val.Type() {
+			case cty.String:
 				s = val.AsString()
-			case typ == cty.Number:
+			case cty.Number:
 				num := val.AsBigFloat()
 				s = num.String()
 			default:
-				s = fmt.Sprintf("<unexpected index: %s>", typ.FriendlyName())
+				s = fmt.Sprintf("<unexpected index: %s>", val.Type().FriendlyName())
 			}
-			buf.WriteString(fmt.Sprintf("[%s]", s))
+			fmt.Fprintf(&buf, "[%s]", s)
 		default:
 			if i != 0 {
 				buf.WriteString(".")
 			}
-			buf.WriteString(fmt.Sprintf("<unexpected step: %[1]T %[1]v>", x))
+			fmt.Fprintf(&buf, "<unexpected step: %[1]T %[1]v>", x)
 		}
 	}
 	return buf.String()

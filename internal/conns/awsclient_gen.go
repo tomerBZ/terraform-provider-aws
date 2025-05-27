@@ -88,6 +88,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/docdb"
 	"github.com/aws/aws-sdk-go-v2/service/docdbelastic"
 	"github.com/aws/aws-sdk-go-v2/service/drs"
+	"github.com/aws/aws-sdk-go-v2/service/dsql"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/aws/aws-sdk-go-v2/service/ecr"
@@ -157,6 +158,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/medialive"
 	"github.com/aws/aws-sdk-go-v2/service/mediapackage"
 	"github.com/aws/aws-sdk-go-v2/service/mediapackagev2"
+	"github.com/aws/aws-sdk-go-v2/service/mediapackagevod"
 	"github.com/aws/aws-sdk-go-v2/service/mediastore"
 	"github.com/aws/aws-sdk-go-v2/service/memorydb"
 	"github.com/aws/aws-sdk-go-v2/service/mgn"
@@ -167,6 +169,8 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/networkfirewall"
 	"github.com/aws/aws-sdk-go-v2/service/networkmanager"
 	"github.com/aws/aws-sdk-go-v2/service/networkmonitor"
+	"github.com/aws/aws-sdk-go-v2/service/notifications"
+	"github.com/aws/aws-sdk-go-v2/service/notificationscontacts"
 	"github.com/aws/aws-sdk-go-v2/service/oam"
 	"github.com/aws/aws-sdk-go-v2/service/opensearch"
 	"github.com/aws/aws-sdk-go-v2/service/opensearchserverless"
@@ -541,6 +545,10 @@ func (c *AWSClient) DSClient(ctx context.Context) *directoryservice.Client {
 	return errs.Must(client[*directoryservice.Client](ctx, c, names.DS, make(map[string]any)))
 }
 
+func (c *AWSClient) DSQLClient(ctx context.Context) *dsql.Client {
+	return errs.Must(client[*dsql.Client](ctx, c, names.DSQL, make(map[string]any)))
+}
+
 func (c *AWSClient) DataBrewClient(ctx context.Context) *databrew.Client {
 	return errs.Must(client[*databrew.Client](ctx, c, names.DataBrew, make(map[string]any)))
 }
@@ -877,6 +885,10 @@ func (c *AWSClient) MediaPackageV2Client(ctx context.Context) *mediapackagev2.Cl
 	return errs.Must(client[*mediapackagev2.Client](ctx, c, names.MediaPackageV2, make(map[string]any)))
 }
 
+func (c *AWSClient) MediaPackageVODClient(ctx context.Context) *mediapackagevod.Client {
+	return errs.Must(client[*mediapackagevod.Client](ctx, c, names.MediaPackageVOD, make(map[string]any)))
+}
+
 func (c *AWSClient) MediaStoreClient(ctx context.Context) *mediastore.Client {
 	return errs.Must(client[*mediastore.Client](ctx, c, names.MediaStore, make(map[string]any)))
 }
@@ -907,6 +919,14 @@ func (c *AWSClient) NetworkManagerClient(ctx context.Context) *networkmanager.Cl
 
 func (c *AWSClient) NetworkMonitorClient(ctx context.Context) *networkmonitor.Client {
 	return errs.Must(client[*networkmonitor.Client](ctx, c, names.NetworkMonitor, make(map[string]any)))
+}
+
+func (c *AWSClient) NotificationsClient(ctx context.Context) *notifications.Client {
+	return errs.Must(client[*notifications.Client](ctx, c, names.Notifications, make(map[string]any)))
+}
+
+func (c *AWSClient) NotificationsContactsClient(ctx context.Context) *notificationscontacts.Client {
+	return errs.Must(client[*notificationscontacts.Client](ctx, c, names.NotificationsContacts, make(map[string]any)))
 }
 
 func (c *AWSClient) ObservabilityAccessManagerClient(ctx context.Context) *oam.Client {

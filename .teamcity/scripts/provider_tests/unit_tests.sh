@@ -7,8 +7,10 @@ set -euo pipefail
 go test \
     ./internal/acctest/... \
     ./internal/attrmap/... \
+    ./internal/backoff/... \
     ./internal/conns/... \
     ./internal/create/... \
+    ./internal/dns/... \
     ./internal/enum/... \
     ./internal/envvar/... \
     ./internal/errs/... \
@@ -18,11 +20,13 @@ go test \
     ./internal/function/... \
     ./internal/generate/... \
     ./internal/io/... \
+    ./internal/iters/... \
     ./internal/json/... \
     ./internal/logging/... \
     ./internal/maps/... \
     ./internal/namevaluesfilters/... \
     ./internal/provider/... \
+    ./internal/reflect/... \
     ./internal/retry/... \
     ./internal/sdkv2/... \
     ./internal/semver/... \
